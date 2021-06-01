@@ -22,4 +22,4 @@ jobs:
       DockerfileName: ${{ parameters.DockerfileName }}
       ImageBaseName: ${{ parameters.ImageBaseName }}
       ImageTag: ${{ parameters.ImageTag }}
-      ManifestFilePath: 'dfc-grafana/Resources/Dockerfiles/grafana.yaml'
+      #ManifestFilePath: 'dfc-grafana/Resources/Dockerfiles/grafana.yaml'
