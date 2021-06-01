@@ -1,0 +1,86 @@
+variables:
+  ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
+  ImageBaseName: NCS.Grafana.Image
+  SolutionBaseName: DFC.Grafana
+
+resources:
+  repositories:
+  - repository: self
+  - repository: dfc-devops
+    type: github
+    name: SkillsFundingAgency/dfc-devops
+    ref: refs/tags/v1.11.2
+    endpoint: 'GitHub (ESFA)'
+
+pool:
+  name: NCS - CI and CD
+  workspace:
+    clean: all
+  demands:
+    - msbuild
+    - visualstudio
+
+trigger: 
+  branches:
+    include:
+    - dev 
+    - master
+  paths: 
+    include:
+    - Resources/Dockerfiles
+
+pr:
+  branches:
+    include:
+    - dev  
+    - master
+  paths: 
+    include:
+    - Resources/Dockerfiles
+
+stages:
+- stage: Build
+  variables:
+    - group: dfc-shared-all
+    - group: dfc-shared-dev
+  jobs:
+  - template: JobTemplates/BuildContainer.yml
+    parameters:
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
+      DevSitContainerRegistryAdminUser: $(DevContainerRegistryAdminUser)
+      DevSitContainerRegistryPassword: $(DevContainerRegistryPassword)
+      DockerfileContext: 'Resources/Dockerfiles'
+      DockerfileName: 'grafana.Dockerfile'
+      ImageBaseName: ${{ variables.ImageBaseName }}
+      #TO DO: decide how to tag and publish image builds from branches
+      ImageTag: $(Build.BuildNumber)
+  - template: JobTemplates/BuildResources.yml
+    parameters:
+      ArmTemplateRoot: ${{ variables.ArmTemplateRoot }}
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
+
+- stage: DeployToLab
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+    - group: dfc-shared-all
+    - group: dfc-stax-shared-all
+    - group: KeyVault - dfc-lab-shared-kv
+    - group: dfc-shared-lab
+    - group: dfc-stax-shared-lab
+    - template: VariableTemplates\LabEnvironmentVariables.yml
+  jobs:
+  - template: JobTemplates/Deploy.yml
+    parameters:
+      AksResourceGroup: $(sharedResourceGroup)
+      AzureSubscriptionEndpoint: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
+      Environment: LAB_Grafana
+      EnvironmentTag: $(EnvironmentTag)
+      ImageBaseName: ${{ variables.ImageBaseName }}
+      KeyVaultName: $(sharedKeyVaultName)
+      KubernetesCluster: $(sharedAksCluster)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(ResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
+      GrafanaNamespace: $(grafana-namespace)
+
