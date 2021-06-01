@@ -1,0 +1,25 @@
+parameters:
+  DevSitContainerRegistryAdminUser: ''
+  DevSitContainerRegistryPassword: ''
+  DockerfileContext: ''
+  DockerfileName: ''
+  ImageBaseName: ''
+  ImageTag: ''
+
+jobs:
+- job: Build-NCS-Grafana-Image
+  displayName: Build and publish NCS.Grafana.Image container
+  pool: 'NCS - Docker'
+  workspace:
+    clean: all
+  steps:
+  - checkout: self
+  - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-docker-publish-k8smanifest.yml@dfc-devops
+    parameters:
+      ContainerRegistryAdminUser: ${{ parameters.DevSitContainerRegistryAdminUser }}
+      ContainerRegistryPassword: ${{ parameters.DevSitContainerRegistryPassword }}
+      DockerfileContext: 'dfc-grafana/${{ parameters.DockerfileContext }}'
+      DockerfileName: ${{ parameters.DockerfileName }}
+      ImageBaseName: ${{ parameters.ImageBaseName }}
+      ImageTag: ${{ parameters.ImageTag }}
+      #ManifestFilePath: 'dfc-grafana/Resources/Dockerfiles/neo4jescodb.yaml'

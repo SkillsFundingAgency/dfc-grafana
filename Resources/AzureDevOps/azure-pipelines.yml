@@ -1,0 +1,55 @@
+variables:
+  ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
+  ImageBaseName: NCS.Grafana.Image
+
+resources:
+  repositories:
+  - repository: self
+  - repository: dfc-devops
+    type: github
+    name: SkillsFundingAgency/dfc-devops
+    ref: refs/tags/v1.11.2
+    endpoint: 'GitHub (ESFA)'
+
+pool:
+  name: NCS - CI and CD
+  workspace:
+    clean: all
+  demands:
+    - msbuild
+    - visualstudio
+
+trigger: 
+  branches:
+    include:
+    - dev 
+    - master
+  paths: 
+    include:
+    - Resources/Dockerfiles
+
+pr:
+  branches:
+    include:
+    - dev  
+    - master
+  paths: 
+    include:
+    - Resources/Dockerfiles
+
+stages:
+- stage: Build
+  variables:
+    - group: dfc-shared-all
+    - group: dfc-shared-dev
+  jobs:
+  - template: JobTemplates/BuildContainer.yml
+    parameters:
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
+      DevSitContainerRegistryAdminUser: $(DevContainerRegistryAdminUser)
+      DevSitContainerRegistryPassword: $(DevContainerRegistryPassword)
+      DockerfileContext: 'Resources/Dockerfiles'
+      DockerfileName: 'grafana.Dockerfile'
+      ImageBaseName: ${{ variables.ImageBaseName }}
+      #TO DO: decide how to tag and publish image builds from branches
+      ImageTag: $(Build.BuildNumber)
