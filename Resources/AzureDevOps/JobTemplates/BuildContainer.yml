@@ -7,7 +7,7 @@ parameters:
   ImageTag: ''
 
 jobs:
-- job: Build-NCS-Grafana-Image
+- job: BuildNCSGrafanaImage
   displayName: Build and publish NCS.Grafana.Image container
   pool: 'NCS - Docker'
   workspace:
