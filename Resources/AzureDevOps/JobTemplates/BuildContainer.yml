@@ -13,7 +13,7 @@ jobs:
   workspace:
     clean: all
   steps:
-  #- checkout: self
+  - checkout: self
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-docker-publish-k8smanifest.yml@dfc-devops
     parameters:
       ContainerRegistryAdminUser: ${{ parameters.DevSitContainerRegistryAdminUser }}
@@ -22,4 +22,4 @@ jobs:
       DockerfileName: ${{ parameters.DockerfileName }}
       ImageBaseName: ${{ parameters.ImageBaseName }}
       ImageTag: ${{ parameters.ImageTag }}
-      ManifestFilePath: 'dfc-grafana/Resources/Dockerfiles/neo4jescodb.yaml'
+      ManifestFilePath: 'dfc-grafana/Resources/Dockerfiles/grafana.yml'
