@@ -13,7 +13,7 @@ jobs:
   workspace:
     clean: all
   steps:
-  #- checkout: self
+  - checkout: self
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-docker-publish-k8smanifest.yml@dfc-devops
     parameters:
       ContainerRegistryAdminUser: ${{ parameters.DevSitContainerRegistryAdminUser }}
