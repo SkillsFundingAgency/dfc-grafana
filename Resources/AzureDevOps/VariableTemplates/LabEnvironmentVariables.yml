@@ -3,3 +3,5 @@ variables:
   value: $(Build.BuildNumber)
 - name: ReleaseEnvironmentName
   value: LAB
+- name: grafana-namespace
+  value: grafana-lab
