@@ -1,6 +1,7 @@
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
   ImageBaseName: NCS.Grafana.Image
+  SolutionBaseName: DFC.Grafana
 
 resources:
   repositories:
@@ -53,3 +54,7 @@ stages:
       ImageBaseName: ${{ variables.ImageBaseName }}
       #TO DO: decide how to tag and publish image builds from branches
       ImageTag: $(Build.BuildNumber)
+  - template: JobTemplates/BuildResources.yml
+    parameters:
+      ArmTemplateRoot: ${{ variables.ArmTemplateRoot }}
+      SolutionBaseName: ${{ variables.SolutionBaseName }}

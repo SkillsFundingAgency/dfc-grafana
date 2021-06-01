@@ -1,0 +1,5 @@
+variables:
+- name: DFCGrafanaImageTag
+  value: $(Build.BuildNumber)
+- name: ReleaseEnvironmentName
+  value: LAB
