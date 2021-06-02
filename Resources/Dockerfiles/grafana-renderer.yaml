@@ -31,6 +31,9 @@ spec:
         - name: grafana-image-renderer
           image: __ContainerRegistryAdminUser__.azurecr.io/ncs.grafana.renderer:__DFCGrafanaImageTag__
           imagePullPolicy: IfNotPresent
+          env:
+            - name: ENABLE_METRICS
+              value: 'true'
           ports:
             - containerPort: 8081
               name: http
