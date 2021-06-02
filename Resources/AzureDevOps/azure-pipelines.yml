@@ -44,10 +44,10 @@ stages:
     - group: dfc-shared-all
     - group: dfc-shared-dev
   jobs:
-  #- template: JobTemplates/BuildResources.yml
-  #  parameters:
-  #    ArmTemplateRoot: ${{ variables.ArmTemplateRoot }}
-  #    SolutionBaseName: ${{ variables.SolutionBaseName }}
+  - template: JobTemplates/BuildResources.yml
+    parameters:
+      ArmTemplateRoot: ${{ variables.ArmTemplateRoot }}
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
   - template: JobTemplates/BuildContainer.yml
     parameters:
       SolutionBaseName: ${{ variables.SolutionBaseName }}
