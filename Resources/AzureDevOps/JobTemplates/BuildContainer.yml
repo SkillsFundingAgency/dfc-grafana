@@ -18,8 +18,8 @@ jobs:
     parameters:
       ContainerRegistryAdminUser: ${{ parameters.DevSitContainerRegistryAdminUser }}
       ContainerRegistryPassword: ${{ parameters.DevSitContainerRegistryPassword }}
-      DockerfileContext: '${{ parameters.DockerfileContext }}'
+      DockerfileContext: 'dfc-grafana/${{ parameters.DockerfileContext }}'
       DockerfileName: ${{ parameters.DockerfileName }}
       ImageBaseName: ${{ parameters.ImageBaseName }}
       ImageTag: ${{ parameters.ImageTag }}
-      #ManifestFilePath: 'dfc-grafana/Resources/Dockerfiles/grafana.yaml'
+      ManifestFilePath: 'dfc-grafana/Resources/Dockerfiles/grafana.yaml'
