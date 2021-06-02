@@ -11,6 +11,7 @@ parameters:
   ServiceOfferingTag: ''
   SolutionBaseName: ''
   GrafanaNamespace: ''
+  GrafanaRendererNamespace: ''
 
 jobs:
 - deployment: DeployTo_${{ parameters.Environment }}
@@ -58,7 +59,7 @@ jobs:
             azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
             AksResourceGroup: ${{ parameters.AksResourceGroup }}
             kubernetesCluster: ${{ parameters.KubernetesCluster }}
-            Namespace: ${{ parameters.GrafanaNamespace }}
+            Namespace: ${{ parameters.GrafanaRendererNamespace }}
         - task: esfadevops.Tokenization.custom-build-task.Tokenization@0
           displayName: 'Tokenization: Transform file grafana-renderer.yaml'
           inputs:
@@ -72,6 +73,6 @@ jobs:
             azureResourceGroup: ${{ parameters.AksResourceGroup }}
             kubernetesCluster: ${{ parameters.KubernetesCluster }}
             useClusterAdmin: true
-            namespace: '${{ parameters.GrafanaNamespace }}'
+            namespace: '${{ parameters.GrafanaRendererNamespace }}'
             command: 'apply'
             arguments: '--filename=$(Pipeline.Workspace)/${{ parameters.RenderImageBaseName }}/grafana-renderer.yaml'

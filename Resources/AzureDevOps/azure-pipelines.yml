@@ -87,4 +87,5 @@ stages:
       ServiceOfferingTag: $(ServiceOffering)
       SolutionBaseName: ${{ variables.SolutionBaseName }}
       GrafanaNamespace: $(grafana-namespace)
+      GrafanaRendererNamespace: $(grafanarenderer-namespace)
 
