@@ -33,3 +33,4 @@ jobs:
       DockerfileName: ${{ parameters.RenderDockerfileName }}
       ImageBaseName: ${{ parameters.RenderImageBaseName }}
       ImageTag: ${{ parameters.ImageTag }}
+      ManifestFilePath: 'Resources/Dockerfiles/grafana-renderer.yaml'

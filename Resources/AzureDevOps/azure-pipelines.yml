@@ -79,6 +79,7 @@ stages:
       Environment: LAB_Grafana
       EnvironmentTag: $(EnvironmentTag)
       ImageBaseName: ${{ variables.ImageBaseName }}
+      RenderImageBaseName: ${{ variables.RenderImageBaseName }}
       KeyVaultName: $(sharedKeyVaultName)
       KubernetesCluster: $(sharedAksCluster)
       ParentBusinessTag: $(ParentBusiness)
