@@ -13,12 +13,12 @@ jobs:
   workspace:
     clean: all
   steps:
-  - checkout: dfc-grafana
+  - checkout: self
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-docker-publish-k8smanifest.yml@dfc-devops
     parameters:
       ContainerRegistryAdminUser: ${{ parameters.DevSitContainerRegistryAdminUser }}
       ContainerRegistryPassword: ${{ parameters.DevSitContainerRegistryPassword }}
-      DockerfileContext: '${{ parameters.DockerfileContext }}'
+      DockerfileContext: 'dfc-grafana/${{ parameters.DockerfileContext }}'
       DockerfileName: ${{ parameters.DockerfileName }}
       ImageBaseName: ${{ parameters.ImageBaseName }}
       ImageTag: ${{ parameters.ImageTag }}
