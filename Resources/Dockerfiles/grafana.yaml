@@ -81,6 +81,9 @@ spec:
     - port: 3000
       protocol: TCP
       targetPort: http-grafana
+    - port: 8081
+      protocol: TCP
+      targetPort: http-render
   selector:
     app: grafana
   sessionAffinity: None
