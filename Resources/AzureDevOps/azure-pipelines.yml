@@ -44,6 +44,10 @@ stages:
     - group: dfc-shared-all
     - group: dfc-shared-dev
   jobs:
+  - template: JobTemplates/BuildResources.yml
+    parameters:
+      ArmTemplateRoot: ${{ variables.ArmTemplateRoot }}
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
   - template: JobTemplates/BuildContainer.yml
     parameters:
       SolutionBaseName: ${{ variables.SolutionBaseName }}
@@ -54,10 +58,6 @@ stages:
       ImageBaseName: ${{ variables.ImageBaseName }}
       #TO DO: decide how to tag and publish image builds from branches
       ImageTag: $(Build.BuildNumber)
-  - template: JobTemplates/BuildResources.yml
-    parameters:
-      ArmTemplateRoot: ${{ variables.ArmTemplateRoot }}
-      SolutionBaseName: ${{ variables.SolutionBaseName }}
 
 - stage: DeployToLab
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
