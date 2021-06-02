@@ -3,7 +3,9 @@ parameters:
   DevSitContainerRegistryPassword: ''
   DockerfileContext: ''
   DockerfileName: ''
+  RenderDockerfileName: ''
   ImageBaseName: ''
+  RenderImageBaseName: ''
   ImageTag: ''
 
 jobs:
@@ -23,3 +25,11 @@ jobs:
       ImageBaseName: ${{ parameters.ImageBaseName }}
       ImageTag: ${{ parameters.ImageTag }}
       ManifestFilePath: 'Resources/Dockerfiles/grafana.yaml'
+  - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-docker-publish-k8smanifest.yml@dfc-devops
+    parameters:
+      ContainerRegistryAdminUser: ${{ parameters.DevSitContainerRegistryAdminUser }}
+      ContainerRegistryPassword: ${{ parameters.DevSitContainerRegistryPassword }}
+      DockerfileContext: '${{ parameters.RenderDockerfileContext }}'
+      RenderDockerfileName: ${{ parameters.RenderDockerfileName }}
+      RenderImageBaseName: ${{ parameters.ImageBaseName }}
+      ImageTag: ${{ parameters.ImageTag }}

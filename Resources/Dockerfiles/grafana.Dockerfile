@@ -1,3 +1,4 @@
 FROM grafana/grafana:latest
-ENV GF_INSTALL_IMAGE_RENDERER_PLUGIN=true
-ENV GF_INSTALL_PLUGINS=grafana-image-renderer,grafana-piechart-panel,jdbranham-diagram-panel,snuids-trafficlights-panel
+ENV GF_RENDERING_SERVER_URL: http://renderer:8081/render
+ENV GF_RENDERING_CALLBACK_URL: http://__GrafanaPublicIP__:3000/
+ENV GF_LOG_FILTERS: rendering:debug

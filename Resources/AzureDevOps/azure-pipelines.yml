@@ -1,6 +1,7 @@
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
   ImageBaseName: NCS.Grafana.Image
+  RenderImageBaseName: NCS.Grafana.Renderer
   SolutionBaseName: DFC.Grafana
 
 resources:
@@ -55,7 +56,9 @@ stages:
       DevSitContainerRegistryPassword: $(DevContainerRegistryPassword)
       DockerfileContext: 'Resources/Dockerfiles'
       DockerfileName: 'grafana.Dockerfile'
+      RenderDockerfileName: 'grafana-renderer.Dockerfile'
       ImageBaseName: ${{ variables.ImageBaseName }}
+      RenderImageBaseName: ${{ variables.RenderImageBaseName }}
       #TO DO: decide how to tag and publish image builds from branches
       ImageTag: $(Build.BuildNumber)
 
