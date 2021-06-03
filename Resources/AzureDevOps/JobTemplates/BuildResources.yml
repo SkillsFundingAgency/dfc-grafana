@@ -9,7 +9,7 @@ jobs:
   workspace:
     clean: all
   steps:
-  - task: GitVersion@5
+  - task: UseGitVersion@5
     inputs:
       preferBundledVersion: false
       updateAssemblyInfo: true
