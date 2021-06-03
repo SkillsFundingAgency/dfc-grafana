@@ -9,11 +9,11 @@ jobs:
   workspace:
     clean: all
   steps:
-  - task: UseGitVersion@5
-    inputs:
-      useConfigFile: true
-      versionSpec: '5.3.x'
-      configFilePath: '$(Build.SourcesDirectory)\GitVersion.yml'
+#  - task: UseGitVersion@5
+#    inputs:
+#      useConfigFile: true
+#      versionSpec: '5.3.x'
+#      configFilePath: '$(Build.SourcesDirectory)\GitVersion.yml'
 #  - script: echo %Action%%BuildVersion%
 #    displayName: 'Set Build Number to Semantic Version'
 #    env:
