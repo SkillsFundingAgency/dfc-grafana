@@ -9,6 +9,11 @@ jobs:
   workspace:
     clean: all
   steps:
+  - task: GitVersion@5
+    inputs:
+      preferBundledVersion: false
+      updateAssemblyInfo: true
+      configFilePath: './GitVersion.yml'
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-arm-build.yml@dfc-devops
     parameters:
       ArmTemplateRoot: ${{ parameters.ArmTemplateRoot }}
