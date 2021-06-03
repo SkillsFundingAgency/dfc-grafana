@@ -14,11 +14,11 @@ jobs:
       useConfigFile: true
       versionSpec: '5.3.x'
       configFilePath: '$(Build.SourcesDirectory)\GitVersion.yml'
-  - script: echo %Action%%BuildVersion%
-    displayName: 'Set Build Number to Semantic Version'
-    env:
-      Action: '##vso[build.updatebuildnumber]'
-      BuildVersion: '$(GitVersion.SemVer)'
+#  - script: echo %Action%%BuildVersion%
+#    displayName: 'Set Build Number to Semantic Version'
+#    env:
+#      Action: '##vso[build.updatebuildnumber]'
+#      BuildVersion: '$(GitVersion.SemVer)'
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-arm-build.yml@dfc-devops
     parameters:
       ArmTemplateRoot: ${{ parameters.ArmTemplateRoot }}
