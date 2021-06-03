@@ -13,6 +13,8 @@ jobs:
     inputs:
       preferBundledVersion: false
       updateAssemblyInfo: true
+      useConfigFile: true
+      versionSpec: '5.3.x'
       configFilePath: './GitVersion.yml'
   - script: echo %Action%%BuildVersion%
     displayName: 'Set Build Number to Semantic Version'
