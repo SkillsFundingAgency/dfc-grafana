@@ -66,5 +66,6 @@ spec:
       targetPort: 8081
   selector:
     app: grafana-image-renderer
-  type: ClusterIP
+  type: LoadBalancer
+  loadBalancerIP: __GrafanImageRenderingPublicIP__
   sessionAffinity: None
