@@ -36,6 +36,8 @@ spec:
               value: "true"
             - name: HTTP_PORT
               value: "8081"
+            - name: HTTP_HOST
+              value: "renderer"
           ports:
             - containerPort: 8081
               name: http
