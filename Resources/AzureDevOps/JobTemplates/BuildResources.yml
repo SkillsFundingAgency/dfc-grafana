@@ -15,7 +15,7 @@ jobs:
       updateAssemblyInfo: true
       useConfigFile: true
       versionSpec: '5.3.x'
-      configFilePath: './GitVersion.yml'
+      configFilePath: '$(Build.SourcesDirectory)/GitVersion.yml'
   - script: echo %Action%%BuildVersion%
     displayName: 'Set Build Number to Semantic Version'
     env:
