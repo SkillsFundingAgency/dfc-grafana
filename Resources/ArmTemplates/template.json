@@ -65,7 +65,7 @@
                         "value": "Static"
                     },
                     "publicDnsLabel": {
-                        "value": "[variables('resourcePrefix')]"
+                        "value": "[concat(variables('resourcePrefix'), 'imagerendering')]"
                     }
                 }
             }
