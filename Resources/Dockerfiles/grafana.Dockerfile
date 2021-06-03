@@ -1,2 +1,1 @@
 FROM grafana/grafana:latest
-ENV GF_INSTALL_IMAGE_RENDERER_PLUGIN=true

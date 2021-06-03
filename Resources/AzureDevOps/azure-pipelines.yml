@@ -1,6 +1,9 @@
+name: $(date:yyyyMMdd)$(rev:.r)-$(Build.SourceBranchName)-$(GitVersion.SemVer)
+
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
   ImageBaseName: NCS.Grafana.Image
+  RenderImageBaseName: NCS.Grafana.Renderer
   SolutionBaseName: DFC.Grafana
 
 resources:
@@ -44,6 +47,10 @@ stages:
     - group: dfc-shared-all
     - group: dfc-shared-dev
   jobs:
+  - template: JobTemplates/BuildResources.yml
+    parameters:
+      ArmTemplateRoot: ${{ variables.ArmTemplateRoot }}
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
   - template: JobTemplates/BuildContainer.yml
     parameters:
       SolutionBaseName: ${{ variables.SolutionBaseName }}
@@ -51,13 +58,11 @@ stages:
       DevSitContainerRegistryPassword: $(DevContainerRegistryPassword)
       DockerfileContext: 'Resources/Dockerfiles'
       DockerfileName: 'grafana.Dockerfile'
+      RenderDockerfileName: 'grafana-renderer.Dockerfile'
       ImageBaseName: ${{ variables.ImageBaseName }}
+      RenderImageBaseName: ${{ variables.RenderImageBaseName }}
       #TO DO: decide how to tag and publish image builds from branches
       ImageTag: $(Build.BuildNumber)
-  - template: JobTemplates/BuildResources.yml
-    parameters:
-      ArmTemplateRoot: ${{ variables.ArmTemplateRoot }}
-      SolutionBaseName: ${{ variables.SolutionBaseName }}
 
 - stage: DeployToLab
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -76,6 +81,7 @@ stages:
       Environment: LAB_Grafana
       EnvironmentTag: $(EnvironmentTag)
       ImageBaseName: ${{ variables.ImageBaseName }}
+      RenderImageBaseName: ${{ variables.RenderImageBaseName }}
       KeyVaultName: $(sharedKeyVaultName)
       KubernetesCluster: $(sharedAksCluster)
       ParentBusinessTag: $(ParentBusiness)
@@ -83,4 +89,5 @@ stages:
       ServiceOfferingTag: $(ServiceOffering)
       SolutionBaseName: ${{ variables.SolutionBaseName }}
       GrafanaNamespace: $(grafana-namespace)
+      GrafanaRendererNamespace: $(grafanarenderer-namespace)
 

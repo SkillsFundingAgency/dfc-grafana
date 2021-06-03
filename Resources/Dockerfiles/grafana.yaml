@@ -35,6 +35,13 @@ spec:
         - name: grafana
           image: __ContainerRegistryAdminUser__.azurecr.io/ncs.grafana.image:__DFCGrafanaImageTag__
           imagePullPolicy: IfNotPresent
+          env:
+            - name: GF_RENDERING_SERVER_URL
+              value: http://__GrafanImageRenderingPublicIP__:8081/render
+            - name: GF_RENDERING_CALLBACK_URL
+              value: http://__GrafanaPublicIP__:3000/
+            - name: GF_LOG_FILTERS
+              value: rendering:debug
           ports:
             - containerPort: 3000
               name: http-grafana
