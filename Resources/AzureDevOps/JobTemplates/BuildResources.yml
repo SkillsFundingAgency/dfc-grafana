@@ -11,8 +11,6 @@ jobs:
   steps:
   - task: UseGitVersion@5
     inputs:
-      preferBundledVersion: false
-      updateAssemblyInfo: true
       useConfigFile: true
       versionSpec: '5.3.x'
       configFilePath: '$(Build.SourcesDirectory)\Resources\AzureDevOps\GitVersion.yml'
