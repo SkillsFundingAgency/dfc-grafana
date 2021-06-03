@@ -14,6 +14,11 @@ jobs:
       preferBundledVersion: false
       updateAssemblyInfo: true
       configFilePath: './GitVersion.yml'
+  - script: echo %Action%%BuildVersion%
+    displayName: 'Set Build Number to Semantic Version'
+    env:
+      Action: '##vso[build.updatebuildnumber]'
+      BuildVersion: '$(GitVersion.SemVer)'
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-arm-build.yml@dfc-devops
     parameters:
       ArmTemplateRoot: ${{ parameters.ArmTemplateRoot }}
