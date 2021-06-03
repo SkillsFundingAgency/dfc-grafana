@@ -36,8 +36,6 @@ spec:
               value: "true"
             - name: HTTP_PORT
               value: "8081"
-            - name: HTTP_HOST
-              value: "10.2.5.69"
           ports:
             - containerPort: 8081
               name: http
