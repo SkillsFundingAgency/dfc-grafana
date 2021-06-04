@@ -4,23 +4,13 @@ mode: ContinuousDelivery
 branches:
   master:
     mode: ContinuousDelivery
-    tag: ''
+    tag: 'Master-Release'
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
-    regex: ^master$|^main$
+    regex: ^master$
     tracks-release-branches: false
     is-release-branch: false
-  release:
-    mode: ContinuousDelivery
-    tag: rc
-    increment: Patch
-    prevent-increment-of-merged-branch-version: true
-    track-merge-target: false
-    regex: ^releases?[/-]
-    tracks-release-branches: false
-    is-release-branch: true
-    pre-release-weight: 1000
   feature:
     mode: ContinuousDelivery
     tag: useBranchName
@@ -42,25 +32,16 @@ branches:
     is-release-branch: false
   hotfix:
     mode: ContinuousDelivery
-    tag: beta
+    tag: useBranchName
     increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: false
     regex: ^hotfix(es)?[/-]
     tracks-release-branches: false
     is-release-branch: false
-  support:
-    mode: ContinuousDelivery
-    tag: ''
-    increment: Patch
-    prevent-increment-of-merged-branch-version: true
-    track-merge-target: false
-    regex: ^support[/-]
-    tracks-release-branches: false
-    is-release-branch: false
   develop:
     mode: ContinuousDeployment
-    tag: unstable
+    tag: dev-beta
     increment: Minor
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
