@@ -88,3 +88,15 @@ jobs:
             command: apply
             arguments: '--filename=$(Pipeline.Workspace)/${{ parameters.SolutionBaseName }}.KuredManifests/create-kured-namespace.yaml '
             versionSpec: 1.19.4
+        - task: Kubernetes@1
+          displayName: kubectl deploy kured daemonset 1.6.1
+          inputs:
+            connectionType: Azure Resource Manager
+            azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
+            azureResourceGroup: ${{ parameters.AksResourceGroup }}
+            kubernetesCluster: ${{ parameters.KubernetesCluster }}
+            useClusterAdmin: true
+            namespace: 'kured-ns'
+            command: apply
+            arguments: '--filename=$(Pipeline.Workspace)/${{ parameters.SolutionBaseName }}.KuredManifests/kured-1.6.1-dockerhub.yaml '
+            versionSpec: 1.19.4
