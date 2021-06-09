@@ -73,6 +73,7 @@ stages:
     - group: KeyVault - dfc-lab-shared-kv
     - group: dfc-shared-lab
     - group: dfc-stax-shared-lab
+    - group: dfc-shared-infrastructure-all
     - template: VariableTemplates\LabEnvironmentVariables.yml
   jobs:
   - template: JobTemplates/Deploy.yml

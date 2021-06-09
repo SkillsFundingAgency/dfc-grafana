@@ -76,6 +76,11 @@ jobs:
             namespace: '${{ parameters.GrafanaRendererNamespace }}'
             command: 'apply'
             arguments: '--filename=$(Pipeline.Workspace)/${{ parameters.RenderImageBaseName }}/grafana-renderer.yaml'
+        - task: esfadevops.Tokenization.custom-build-task.Tokenization@0
+          displayName: 'Tokenization: Transform file kured-1.6.1-dockerhub.yaml'
+          inputs:
+            SourcePath: $(Pipeline.Workspace)/${{ parameters.SolutionBaseName }}.KuredManifests
+            TargetFileNames: 'kured-1.6.1-dockerhub.yaml'            
         - task: Kubernetes@1
           displayName: create kured-ns namespace
           inputs:
