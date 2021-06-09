@@ -7,6 +7,12 @@
         },
         "environment": {
             "value": "__ReleaseEnvironmentName__"
+        },
+        "storageAccountName": {
+            "value": "__sharedDfcStorageAccountName__"
+        },
+        "storageAccountResourceGroup": {
+            "value": "__SharedResourceGroupName__"
         }
     }
 }

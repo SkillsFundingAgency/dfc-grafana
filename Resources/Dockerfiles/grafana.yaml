@@ -74,10 +74,24 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: grafana-pv
+            - name: certificates
+              mountPath: /var/lib/grafana/certificates
+            - name: grafanafiles
+              mountPath: /var/lib/grafana/import   
       volumes:
         - name: grafana-pv
           persistentVolumeClaim:
             claimName: grafana-pvc
+        - name: certificates
+          azureFile:
+            secretName: sharedstr-account-secret
+            shareName: certificates
+            readOnly: true
+        - name: grafanafiles
+          azureFile:
+            secretName: sharedstr-account-secret
+            shareName: grafanafiles          
+
 ---
 apiVersion: v1
 kind: Service
