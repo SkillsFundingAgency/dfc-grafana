@@ -28,4 +28,4 @@ jobs:
     displayName: Publish Kured artifact
     inputs:
       targetPath: "$(Build.SourcesDirectory)/Resources/kured-manifests"
-      artifactName: ${{ variables.SolutionBaseName }}.KuredManifests        
+      artifactName: ${{ parameters.SolutionBaseName }}.KuredManifests        
