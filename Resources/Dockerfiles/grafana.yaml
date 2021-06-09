@@ -39,9 +39,15 @@ spec:
             - name: GF_RENDERING_SERVER_URL
               value: http://__GrafanImageRenderingPublicIP__:8081/render
             - name: GF_RENDERING_CALLBACK_URL
-              value: http://__GrafanaPublicIP__:3000/
+              value: https://__GrafanaPublicIP__:3000/
             - name: GF_LOG_FILTERS
               value: rendering:debug
+            - name: GF_SERVER_PROTOCOL
+              value: https
+            - name: GF_SERVER_CERT_FILE
+              value: /var/lib/grafana/certificates/default/fullchain.pem
+            - name: GF_SERVER_CERT_KEY
+              value: /var/lib/grafana/certificates/default/privkey.pem     
           ports:
             - containerPort: 3000
               name: http-grafana
