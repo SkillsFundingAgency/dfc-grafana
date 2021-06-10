@@ -55,25 +55,7 @@ spec:
           ports:
             - containerPort: 443
               name: https-grafana
-              protocol: TCP
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /robots.txt
-              port: 443
-              scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 30
-            successThreshold: 1
-            timeoutSeconds: 2
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 443
-            timeoutSeconds: 1            
+              protocol: TCP           
           resources:
             requests:
               cpu: 250m
