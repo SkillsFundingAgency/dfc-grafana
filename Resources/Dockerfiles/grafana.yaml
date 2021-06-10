@@ -39,7 +39,7 @@ spec:
             - name: GF_RENDERING_SERVER_URL
               value: http://__GrafanImageRenderingPublicIP__:8081/render
             - name: GF_RENDERING_CALLBACK_URL
-              value: http://__GrafanaPublicIP__:3000/
+              value: https://__GrafanaPublicIP__:443/
             - name: GF_LOG_FILTERS
               value: rendering:debug
             - name: GF_SERVER_DOMAIN
@@ -49,16 +49,18 @@ spec:
             - name: GF_SERVER_CERT_FILE
               value: /var/lib/grafana/certificates/default/fullchain.pem
             - name: GF_SERVER_CERT_KEY
-              value: /var/lib/grafana/certificates/default/privkey.pem     
+              value: /var/lib/grafana/certificates/default/privkey.pem
+            - name: GF_RENDERER_PLUGIN_IGNORE_HTTPS_ERRORS
+              value: "true"     
           ports:
-            - containerPort: 3000
-              name: http-grafana
+            - containerPort: 443
+              name: https-grafana
               protocol: TCP
           readinessProbe:
             failureThreshold: 3
             httpGet:
               path: /robots.txt
-              port: 3000
+              port: 443
               scheme: HTTP
             initialDelaySeconds: 10
             periodSeconds: 30
@@ -70,7 +72,7 @@ spec:
             periodSeconds: 10
             successThreshold: 1
             tcpSocket:
-              port: 3000
+              port: 443
             timeoutSeconds: 1            
           resources:
             requests:
@@ -108,9 +110,9 @@ metadata:
 spec:
   ports:
     - name: https
-      port: 3000
+      port: 443
       protocol: TCP
-      targetPort: http-grafana
+      targetPort: https-grafana
   selector:
     app: grafana
   sessionAffinity: None
