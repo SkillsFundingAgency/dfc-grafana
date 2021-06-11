@@ -36,34 +36,31 @@ spec:
           image: __ContainerRegistryAdminUser__.azurecr.io/ncs.grafana.image:__DFCGrafanaImageTag__
           imagePullPolicy: IfNotPresent
           env:
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-account-secret
+                  key: password
             - name: GF_RENDERING_SERVER_URL
               value: http://__GrafanImageRenderingPublicIP__:8081/render
             - name: GF_RENDERING_CALLBACK_URL
-              value: http://__GrafanaPublicIP__:3000/
+              value: https://__GrafanaFQDN__:3000/
             - name: GF_LOG_FILTERS
               value: rendering:debug
+            - name: GF_SERVER_DOMAIN
+              value: __GrafanaFQDN__  
+            - name: GF_SERVER_PROTOCOL
+              value: https
+            - name: GF_SERVER_CERT_FILE
+              value: /var/lib/grafana/certificates/default/cert.pem
+            - name: GF_SERVER_CERT_KEY
+              value: /var/lib/grafana/certificates/default/privkey.pem
+            - name: GF_RENDERER_PLUGIN_IGNORE_HTTPS_ERRORS
+              value: "true"     
           ports:
             - containerPort: 3000
-              name: http-grafana
-              protocol: TCP
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /robots.txt
-              port: 3000
-              scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 30
-            successThreshold: 1
-            timeoutSeconds: 2
-          livenessProbe:
-            failureThreshold: 3
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            tcpSocket:
-              port: 3000
-            timeoutSeconds: 1            
+              name: https-grafana
+              protocol: TCP           
           resources:
             requests:
               cpu: 250m
@@ -74,10 +71,24 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: grafana-pv
+            - name: certificates
+              mountPath: /var/lib/grafana/certificates
+            - name: grafanafiles
+              mountPath: /var/lib/grafana/import   
       volumes:
         - name: grafana-pv
           persistentVolumeClaim:
             claimName: grafana-pvc
+        - name: certificates
+          azureFile:
+            secretName: sharedstr-account-secret
+            shareName: certificates
+            readOnly: true
+        - name: grafanafiles
+          azureFile:
+            secretName: sharedstr-account-secret
+            shareName: grafanafiles          
+
 ---
 apiVersion: v1
 kind: Service
@@ -85,9 +96,10 @@ metadata:
   name: grafana
 spec:
   ports:
-    - port: 3000
+    - name: https
+      port: 3000
       protocol: TCP
-      targetPort: http-grafana
+      targetPort: https-grafana
   selector:
     app: grafana
   sessionAffinity: None

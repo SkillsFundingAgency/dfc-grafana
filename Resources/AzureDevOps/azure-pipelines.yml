@@ -90,4 +90,10 @@ stages:
       SolutionBaseName: ${{ variables.SolutionBaseName }}
       GrafanaNamespace: $(grafana-namespace)
       GrafanaRendererNamespace: $(grafanarenderer-namespace)
+      CertificateSecretName: $(GrafanaCertificateName)
+      SharedStorageAccountKey: $(dfclabsharedstr)
+      storageAccountName: $(sharedDfcStorageAccountName)
+      storageAccountResourceGroup: $(SharedResourceGroupName)
+      GrafanaPassword: $(GrafanaPassword)
+
 
