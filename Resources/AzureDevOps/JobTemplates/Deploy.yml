@@ -41,6 +41,7 @@ jobs:
             ServiceOfferingTag: ${{ parameters.ServiceOfferingTag }}
         - task: AzurePowerShell@4
           displayName: 'Azure PowerShell script: Set-CertficatesDirectoriesInFileShare'
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             azureSubscription: ${{ parameters.AzureSubscriptionEndpoint }}
             scriptPath: $(Pipeline.Workspace)/${{ parameters.SolutionBaseName }}.PSScripts/Set-CertficatesDirectoriesInFileShare.ps1
@@ -50,6 +51,7 @@ jobs:
           path: 's/'
         - task: AzurePowerShell@4
           displayName: 'Azure PowerShell script: Export-KeyVaultCertToPemFiles'
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             azureSubscription: ${{ parameters.AzureSubscriptionEndpoint }}
             scriptPath: $(Build.SourcesDirectory)/PSCoreScripts/Export-KeyVaultCertToPemFiles.ps1
@@ -63,6 +65,7 @@ jobs:
             Namespace: ${{ parameters.GrafanaNamespace }}
         - task: Kubernetes@1
           displayName: kubectl create storage secret
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             connectionType: Azure Resource Manager
             azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
@@ -75,6 +78,7 @@ jobs:
             secretName: sharedstr-account-secret
         - task: Kubernetes@1
           displayName: kubectl create grafana secret
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             connectionType: Azure Resource Manager
             azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
