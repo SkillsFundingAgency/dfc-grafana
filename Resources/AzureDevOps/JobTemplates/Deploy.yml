@@ -12,6 +12,8 @@ parameters:
   SolutionBaseName: ''
   GrafanaNamespace: ''
   GrafanaRendererNamespace: ''
+  ReleaseToGrafana: ''
+  ReleaseToKured: ''
 
 jobs:
 - deployment: DeployTo_${{ parameters.Environment }}
@@ -40,11 +42,13 @@ jobs:
             Namespace: ${{ parameters.GrafanaNamespace }}
         - task: esfadevops.Tokenization.custom-build-task.Tokenization@0
           displayName: 'Tokenization: Transform file grafana.yaml'
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             SourcePath: $(Pipeline.Workspace)/${{ parameters.ImageBaseName }}
             TargetFileNames: grafana.yaml
         - task: Kubernetes@1
           displayName: kubectl deploy manifest
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             connectionType: Azure Resource Manager
             azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
@@ -62,11 +66,13 @@ jobs:
             Namespace: ${{ parameters.GrafanaRendererNamespace }}
         - task: esfadevops.Tokenization.custom-build-task.Tokenization@0
           displayName: 'Tokenization: Transform file grafana-renderer.yaml'
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             SourcePath: $(Pipeline.Workspace)/${{ parameters.RenderImageBaseName }}
             TargetFileNames: grafana-renderer.yaml
         - task: Kubernetes@1
           displayName: kubectl deploy manifest
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             connectionType: Azure Resource Manager
             azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
@@ -78,11 +84,13 @@ jobs:
             arguments: '--filename=$(Pipeline.Workspace)/${{ parameters.RenderImageBaseName }}/grafana-renderer.yaml'
         - task: esfadevops.Tokenization.custom-build-task.Tokenization@0
           displayName: 'Tokenization: Transform file kured-1.6.1-dockerhub.yaml'
+          condition: contains('${{ parameters.ReleaseToKured }}', 'YES')          
           inputs:
             SourcePath: $(Pipeline.Workspace)/${{ parameters.SolutionBaseName }}.KuredManifests
             TargetFileNames: 'kured-1.6.1-dockerhub.yaml'            
         - task: Kubernetes@1
           displayName: create kured-ns namespace
+          condition: contains('${{ parameters.ReleaseToKured }}', 'YES')          
           inputs:
             connectionType: Azure Resource Manager
             azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
@@ -95,6 +103,7 @@ jobs:
             versionSpec: 1.19.4
         - task: Kubernetes@1
           displayName: kubectl deploy kured daemonset 1.6.1
+          condition: contains('${{ parameters.ReleaseToKured }}', 'YES')          
           inputs:
             connectionType: Azure Resource Manager
             azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
