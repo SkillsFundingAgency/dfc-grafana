@@ -92,6 +92,6 @@ stages:
       SolutionBaseName: ${{ variables.SolutionBaseName }}
       GrafanaNamespace: $(grafana-namespace)
       GrafanaRendererNamespace: $(grafanarenderer-namespace)
-      ReleaseToGrafana: 'YES'
+      ReleaseToGrafana: 'NO'
       ReleaseToKured: 'YES'
 
