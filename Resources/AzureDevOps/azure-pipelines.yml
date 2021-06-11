@@ -94,4 +94,10 @@ stages:
       GrafanaRendererNamespace: $(grafanarenderer-namespace)
       ReleaseToGrafana: 'NO'
       ReleaseToKured: 'YES'
+      CertificateSecretName: $(GrafanaCertificateName)
+      SharedStorageAccountKey: $(dfclabsharedstr)
+      storageAccountName: $(sharedDfcStorageAccountName)
+      storageAccountResourceGroup: $(SharedResourceGroupName)
+      GrafanaPassword: $(GrafanaPassword)
+
 

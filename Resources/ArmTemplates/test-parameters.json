@@ -7,6 +7,12 @@
         },
         "environment": {
             "value": "FOO"
+        },
+        "storageAccountName": {
+            "value": "foostorage"
+        },
+        "storageAccountResourceGroup": {
+            "value": "dfc-test-template-rg"
         }
     }
 }
