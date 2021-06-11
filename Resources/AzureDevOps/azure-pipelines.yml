@@ -94,5 +94,6 @@ stages:
       SharedStorageAccountKey: $(dfclabsharedstr)
       storageAccountName: $(sharedDfcStorageAccountName)
       storageAccountResourceGroup: $(SharedResourceGroupName)
+      GrafanaPassword: $(GrafanaPassword)
 
 
