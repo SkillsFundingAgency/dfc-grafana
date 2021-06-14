@@ -1,5 +1,22 @@
 #name: $(date:yyyyMMdd)$(rev:.r)-$(Build.SourceBranchName)-$(GitVersion.SemVer)
 
+parameters:
+- name: ReleaseToKured
+  displayName: Release To kured
+  type: string
+  default: 'NO'
+  values:
+  - 'NO'
+  - 'YES'
+- name: ReleaseToGrafana
+  displayName: Release To Grafana
+  type: string
+  default: 'NO'
+  values:
+  - 'NO'
+  - 'YES'
+
+
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
   ImageBaseName: NCS.Grafana.Image
@@ -65,6 +82,7 @@ stages:
       ImageTag: $(Build.BuildNumber)
 
 - stage: DeployToLab
+  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
     - group: dfc-shared-all
@@ -72,6 +90,7 @@ stages:
     - group: KeyVault - dfc-lab-shared-kv
     - group: dfc-shared-lab
     - group: dfc-stax-shared-lab
+    - group: dfc-shared-infrastructure-all
     - template: VariableTemplates\LabEnvironmentVariables.yml
   jobs:
   - template: JobTemplates/Deploy.yml
@@ -90,6 +109,8 @@ stages:
       SolutionBaseName: ${{ variables.SolutionBaseName }}
       GrafanaNamespace: $(grafana-namespace)
       GrafanaRendererNamespace: $(grafanarenderer-namespace)
+      ReleaseToGrafana: ${{ parameters.ReleaseToGrafana }}
+      ReleaseToKured: ${{ parameters.ReleaseToKured }}
       CertificateSecretName: $(GrafanaCertificateName)
       SharedStorageAccountKey: $(dfclabsharedstr)
       storageAccountName: $(sharedDfcStorageAccountName)

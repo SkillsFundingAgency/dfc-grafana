@@ -24,6 +24,11 @@ jobs:
       ArmTemplateRoot: ${{ parameters.ArmTemplateRoot }}
       SolutionBaseName: ${{ parameters.SolutionBaseName }}
       PublishPipelineArtifact: true
+  - task: PublishPipelineArtifact@1
+    displayName: Publish Kured artifact
+    inputs:
+      targetPath: "$(Build.SourcesDirectory)/Resources/kured-manifests"
+      artifactName: ${{ parameters.SolutionBaseName }}.KuredManifests        
   - task: CopyFiles@2
     displayName: 'Copy PSScripts Files to: $(Build.ArtifactStagingDirectory)'
     inputs:
