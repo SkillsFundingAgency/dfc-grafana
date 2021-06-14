@@ -50,7 +50,7 @@ jobs:
             azurePowerShellVersion: 'latestVersion'
         - checkout: dfc-devops
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')  
-          path: 's/'
+          ßpath: 's/'
         - task: AzurePowerShell@4
           displayName: 'Azure PowerShell script: Export-KeyVaultCertToPemFiles'
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
@@ -99,7 +99,7 @@ jobs:
             SourcePath: $(Pipeline.Workspace)/${{ parameters.ImageBaseName }}
             TargetFileNames: grafana.yaml
         - task: Kubernetes@1
-          displayName: kubectl deploy manifest
+          displayName: kubectl deploy grafana manifest
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             connectionType: Azure Resource Manager
@@ -124,7 +124,7 @@ jobs:
             SourcePath: $(Pipeline.Workspace)/${{ parameters.RenderImageBaseName }}
             TargetFileNames: grafana-renderer.yaml
         - task: Kubernetes@1
-          displayName: kubectl deploy manifest
+          displayName: kubectl deploy grafana renderer manifest
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
           inputs:
             connectionType: Azure Resource Manager

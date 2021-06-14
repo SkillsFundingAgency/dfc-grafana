@@ -1,3 +1,5 @@
+#name: $(date:yyyyMMdd)$(rev:.r)-$(Build.SourceBranchName)-$(GitVersion.SemVer)
+
 parameters:
 - name: ReleaseToKured
   displayName: Release To kured
@@ -14,7 +16,6 @@ parameters:
   - 'NO'
   - 'YES'
 
-#name: $(date:yyyyMMdd)$(rev:.r)-$(Build.SourceBranchName)-$(GitVersion.SemVer)
 
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
