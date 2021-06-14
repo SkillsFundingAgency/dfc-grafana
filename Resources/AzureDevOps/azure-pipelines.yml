@@ -1,3 +1,12 @@
+parameters:
+- name: ReleaseToKured
+  displayName: Release To kured
+  type: string
+  default: 'NO'
+  values:
+  - 'NO'
+  - 'YES'
+
 #name: $(date:yyyyMMdd)$(rev:.r)-$(Build.SourceBranchName)-$(GitVersion.SemVer)
 
 variables:
@@ -93,7 +102,7 @@ stages:
       GrafanaNamespace: $(grafana-namespace)
       GrafanaRendererNamespace: $(grafanarenderer-namespace)
       ReleaseToGrafana: 'NO'
-      ReleaseToKured: 'YES'
+      ReleaseToKured: ${{ parameters.ReleaseToKured }}
       CertificateSecretName: $(GrafanaCertificateName)
       SharedStorageAccountKey: $(dfclabsharedstr)
       storageAccountName: $(sharedDfcStorageAccountName)
