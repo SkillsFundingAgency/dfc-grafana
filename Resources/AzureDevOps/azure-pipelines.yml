@@ -6,6 +6,13 @@ parameters:
   values:
   - 'NO'
   - 'YES'
+- name: ReleaseToGrafana
+  displayName: Release To Grafana
+  type: string
+  default: 'NO'
+  values:
+  - 'NO'
+  - 'YES'
 
 #name: $(date:yyyyMMdd)$(rev:.r)-$(Build.SourceBranchName)-$(GitVersion.SemVer)
 
@@ -101,7 +108,7 @@ stages:
       SolutionBaseName: ${{ variables.SolutionBaseName }}
       GrafanaNamespace: $(grafana-namespace)
       GrafanaRendererNamespace: $(grafanarenderer-namespace)
-      ReleaseToGrafana: 'NO'
+      ReleaseToGrafana: ${{ parameters.ReleaseToGrafana }}
       ReleaseToKured: ${{ parameters.ReleaseToKured }}
       CertificateSecretName: $(GrafanaCertificateName)
       SharedStorageAccountKey: $(dfclabsharedstr)
