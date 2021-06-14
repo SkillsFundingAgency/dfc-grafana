@@ -50,7 +50,7 @@ jobs:
             azurePowerShellVersion: 'latestVersion'
         - checkout: dfc-devops
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')  
-          ßpath: 's/'
+          path: 's/'
         - task: AzurePowerShell@4
           displayName: 'Azure PowerShell script: Export-KeyVaultCertToPemFiles'
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
