@@ -31,7 +31,7 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - ${{ contains('${{ parameters.ReleaseToGrafana }}', 'YES') }}:
+        - ${{ if contains('${{ parameters.ReleaseToGrafana }}', 'YES') }}:
           - template: AzureDevOpsTemplates/Deploy/StepTemplates/dfc-arm-deploy.yml@dfc-devops
             parameters:
               ArmTemplateRoot: ${{ parameters.ArmTemplateRoot }}
