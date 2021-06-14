@@ -48,9 +48,9 @@ jobs:
             scriptPath: $(Pipeline.Workspace)/${{ parameters.SolutionBaseName }}.PSScripts/Set-CertficatesDirectoriesInFileShare.ps1
             scriptArguments: '-ResourceGroupName ${{ parameters.storageAccountResourceGroup }} -ShareName "certificates" -StorageAccountName ${{ parameters.storageAccountName }} -Verbose'
             azurePowerShellVersion: 'latestVersion'
-        - ${{ if contains('${{ parameters.ReleaseToGrafana }}', 'YES') }}:
-          - checkout: dfc-devops
-            path: 's/'
+        - checkout: dfc-devops
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')  
+          path: 's/'
         - task: AzurePowerShell@4
           displayName: 'Azure PowerShell script: Export-KeyVaultCertToPemFiles'
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
