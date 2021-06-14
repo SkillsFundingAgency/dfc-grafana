@@ -122,6 +122,6 @@ spec:
 #            - --slack-username=prod
 #            - --slack-channel=alerting
             - --message-template-drain=Draining node %s in the __AzureEnvironmentName__ Environment
-            - --message-template-drain=Rebooting node %s in the __AzureEnvironmentName__ Environment
+            - --message-template-reboot=Rebooting node %s in the __AzureEnvironmentName__ Environment
             - --start-time=0:00
 #            - --time-zone=UTC
