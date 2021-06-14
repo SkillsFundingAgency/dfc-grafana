@@ -114,9 +114,9 @@ spec:
             - --ds-namespace=kured-ns
             - --end-time=23:59:59
 #            - --lock-annotation=weave.works/kured-node-lock
-            - --period=1m
+            - --period=1h
 #            - --prometheus-url=http://prometheus.monitoring.svc.cluster.local
-            - --reboot-days=sun,mon,tue,wed,thu,fri,sat
+            - --reboot-days=sun,sat
 #            - --reboot-sentinel=/var/run/reboot-required
             - --slack-hook-url=__DfcDevOpsAlertsSlackHook__
 #            - --slack-username=prod
