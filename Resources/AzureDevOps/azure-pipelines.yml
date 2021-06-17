@@ -184,7 +184,7 @@ stages:
       ReleaseToGrafana: ${{ parameters.ReleaseToGrafana }}
       ReleaseToKured: ${{ parameters.ReleaseToKured }}
       CertificateSecretName: $(GrafanaCertificateName)
-      SharedStorageAccountKey: $(dfcdevsharedstr)
+      SharedStorageAccountKey: $(dfcsitsharedstr)
       storageAccountName: $(sharedDfcStorageAccountName)
       storageAccountResourceGroup: $(SharedResourceGroupName)
       GrafanaPassword: $(GrafanaPassword)
