@@ -31,8 +31,8 @@ jobs:
     runOnce:
       deploy:
         steps:
-        - ${{ if contains('${{ parameters.ReleaseToGrafana }}', 'YES') }}:
           - template: AzureDevOpsTemplates/Deploy/StepTemplates/dfc-arm-deploy.yml@dfc-devops
+            condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES') 
             parameters:
               ArmTemplateRoot: ${{ parameters.ArmTemplateRoot }}
               AzureSubscription: ${{ parameters.AzureSubscriptionEndpoint }}
@@ -59,13 +59,13 @@ jobs:
             scriptPath: $(Build.SourcesDirectory)/PSCoreScripts/Export-KeyVaultCertToPemFiles.ps1
             scriptArguments: '-CertificateSecretName ${{ parameters.CertificateSecretName }} -FileShare "certificates" -FullChainOutputDirectories @("default","default\trusted") -KeyVaultName ${{ parameters.KeyVaultName }} -PrivKeyOutputDirectories @("default") -StorageAccountName ${{ parameters.storageAccountName }} -StorageResourceGroupName ${{ parameters.storageAccountResourceGroup }} -Verbose'
             azurePowerShellVersion: 'latestVersion'
-        - ${{ if contains('${{ parameters.ReleaseToGrafana }}', 'YES') }}:
-          - template: AzureDevOpsTemplates\Deploy\StepTemplates\dfc-kubernetes-create-namespace.yml@dfc-devops
-            parameters:
-              azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
-              AksResourceGroup: ${{ parameters.AksResourceGroup }}
-              kubernetesCluster: ${{ parameters.KubernetesCluster }}
-              Namespace: ${{ parameters.GrafanaNamespace }}
+        - template: AzureDevOpsTemplates\Deploy\StepTemplates\dfc-kubernetes-create-namespace.yml@dfc-devops
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')
+          parameters:
+            azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
+            AksResourceGroup: ${{ parameters.AksResourceGroup }}
+            kubernetesCluster: ${{ parameters.KubernetesCluster }}
+            Namespace: ${{ parameters.GrafanaNamespace }}
         - task: Kubernetes@1
           displayName: kubectl create storage secret
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
@@ -110,13 +110,13 @@ jobs:
             namespace: '${{ parameters.GrafanaNamespace }}'
             command: 'apply'
             arguments: '--filename=$(Pipeline.Workspace)/${{ parameters.ImageBaseName }}/grafana.yaml'
-        - ${{ if contains('${{ parameters.ReleaseToGrafana }}', 'YES') }}:
-          - template: AzureDevOpsTemplates\Deploy\StepTemplates\dfc-kubernetes-create-namespace.yml@dfc-devops
-            parameters:
-              azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
-              AksResourceGroup: ${{ parameters.AksResourceGroup }}
-              kubernetesCluster: ${{ parameters.KubernetesCluster }}
-              Namespace: ${{ parameters.GrafanaRendererNamespace }}
+        - template: AzureDevOpsTemplates\Deploy\StepTemplates\dfc-kubernetes-create-namespace.yml@dfc-devops
+          condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')
+          parameters:
+            azureSubscriptionEndpoint: ${{ parameters.AzureSubscriptionEndpoint }}
+            AksResourceGroup: ${{ parameters.AksResourceGroup }}
+            kubernetesCluster: ${{ parameters.KubernetesCluster }}
+            Namespace: ${{ parameters.GrafanaRendererNamespace }}
         - task: esfadevops.Tokenization.custom-build-task.Tokenization@0
           displayName: 'Tokenization: Transform file grafana-renderer.yaml'
           condition: contains('${{ parameters.ReleaseToGrafana }}', 'YES')          
