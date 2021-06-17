@@ -117,4 +117,39 @@ stages:
       storageAccountResourceGroup: $(SharedResourceGroupName)
       GrafanaPassword: $(GrafanaPassword)
 
+- stage: DeployToDev
+  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+    - group: dfc-shared-all
+    - group: dfc-stax-shared-all
+    - group: KeyVault - dfc-dev-shared-kv
+    - group: dfc-shared-dev
+    - group: dfc-stax-shared-dev
+    - group: dfc-shared-infrastructure-all
+    - template: VariableTemplates\DevEnvironmentVariables.yml
+  jobs:
+  - template: JobTemplates/Deploy.yml
+    parameters:
+      AksResourceGroup: $(sharedResourceGroup)
+      AzureSubscriptionEndpoint: 'SFA-CDH-Dev/Test (962cae10-2950-412a-93e3-d8ae92b17896)'
+      Environment: DEV_Grafana
+      EnvironmentTag: $(EnvironmentTag)
+      ImageBaseName: ${{ variables.ImageBaseName }}
+      RenderImageBaseName: ${{ variables.RenderImageBaseName }}
+      KeyVaultName: $(sharedKeyVaultName)
+      KubernetesCluster: $(sharedAksCluster)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(ResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
+      GrafanaNamespace: $(grafana-namespace)
+      GrafanaRendererNamespace: $(grafanarenderer-namespace)
+      ReleaseToGrafana: ${{ parameters.ReleaseToGrafana }}
+      ReleaseToKured: ${{ parameters.ReleaseToKured }}
+      CertificateSecretName: $(GrafanaCertificateName)
+      SharedStorageAccountKey: $(dfcdevsharedstr)
+      storageAccountName: $(sharedDfcStorageAccountName)
+      storageAccountResourceGroup: $(SharedResourceGroupName)
+      GrafanaPassword: $(GrafanaPassword)
 
