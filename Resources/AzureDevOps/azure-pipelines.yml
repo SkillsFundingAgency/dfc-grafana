@@ -82,8 +82,8 @@ stages:
       ImageTag: $(Build.BuildNumber)
 
 - stage: DeployToLab
-  #condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+  #condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
     - group: dfc-shared-all
     - group: dfc-stax-shared-all
@@ -185,6 +185,76 @@ stages:
       ReleaseToKured: ${{ parameters.ReleaseToKured }}
       CertificateSecretName: $(GrafanaCertificateName)
       SharedStorageAccountKey: $(dfcsitsharedstr)
+      storageAccountName: $(sharedDfcStorageAccountName)
+      storageAccountResourceGroup: $(SharedResourceGroupName)
+      GrafanaPassword: $(GrafanaPassword)
+
+- stage: DeployToPP
+  condition: and(eq(dependencies.Build.result,'Succeeded'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  variables:
+    - group: dfc-shared-all
+    - group: dfc-stax-shared-all
+    - group: KeyVault - dfc-pp-shared-kv
+    - group: dfc-shared-pp
+    - group: dfc-stax-shared-pp
+    - group: dfc-shared-infrastructure-all
+    - template: VariableTemplates\PPEnvironmentVariables.yml
+  jobs:
+  - template: JobTemplates/Deploy.yml
+    parameters:
+      AksResourceGroup: $(sharedResourceGroup)
+      AzureSubscriptionEndpoint: 'SFA-DIG-PreProd (931bc9f6-359c-4f65-a753-1ee191a1fd6c)'
+      Environment: PP_Grafana
+      EnvironmentTag: $(EnvironmentTag)
+      ImageBaseName: ${{ variables.ImageBaseName }}
+      RenderImageBaseName: ${{ variables.RenderImageBaseName }}
+      KeyVaultName: $(sharedKeyVaultName)
+      KubernetesCluster: $(sharedAksCluster)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(ResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
+      GrafanaNamespace: $(grafana-namespace)
+      GrafanaRendererNamespace: $(grafanarenderer-namespace)
+      ReleaseToGrafana: ${{ parameters.ReleaseToGrafana }}
+      ReleaseToKured: ${{ parameters.ReleaseToKured }}
+      CertificateSecretName: $(GrafanaCertificateName)
+      SharedStorageAccountKey: $(dfcppsharedstr)
+      storageAccountName: $(sharedDfcStorageAccountName)
+      storageAccountResourceGroup: $(SharedResourceGroupName)
+      GrafanaPassword: $(GrafanaPassword)
+
+- stage: DeployToPrd
+  condition: succeeded()
+  variables:
+    - group: dfc-shared-all
+    - group: dfc-stax-shared-all
+    - group: KeyVault - dfc-prd-shared-kv
+    - group: dfc-shared-prd
+    - group: dfc-stax-shared-prd
+    - group: dfc-shared-infrastructure-all
+    - template: VariableTemplates\PRDEnvironmentVariables.yml
+  jobs:
+  - template: JobTemplates/Deploy.yml
+    parameters:
+      AksResourceGroup: $(sharedResourceGroup)
+      AzureSubscriptionEndpoint: 'SFA-DIG-Prod (6c93f7dc-6c36-4ea6-8de3-3f4574f88027)'
+      Environment: PRD_Grafana
+      EnvironmentTag: $(EnvironmentTag)
+      ImageBaseName: ${{ variables.ImageBaseName }}
+      RenderImageBaseName: ${{ variables.RenderImageBaseName }}
+      KeyVaultName: $(sharedKeyVaultName)
+      KubernetesCluster: $(sharedAksCluster)
+      ParentBusinessTag: $(ParentBusiness)
+      ResourceGroup: $(ResourceGroup)
+      ServiceOfferingTag: $(ServiceOffering)
+      SolutionBaseName: ${{ variables.SolutionBaseName }}
+      GrafanaNamespace: $(grafana-namespace)
+      GrafanaRendererNamespace: $(grafanarenderer-namespace)
+      ReleaseToGrafana: ${{ parameters.ReleaseToGrafana }}
+      ReleaseToKured: ${{ parameters.ReleaseToKured }}
+      CertificateSecretName: $(GrafanaCertificateName)
+      SharedStorageAccountKey: $(dfcprdsharedstr)
       storageAccountName: $(sharedDfcStorageAccountName)
       storageAccountResourceGroup: $(SharedResourceGroupName)
       GrafanaPassword: $(GrafanaPassword)
