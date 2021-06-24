@@ -1,0 +1,36 @@
+parameters:
+  DevSitContainerRegistryAdminUser: ''
+  DevSitContainerRegistryPassword: ''
+  DockerfileContext: ''
+  DockerfileName: ''
+  RenderDockerfileName: ''
+  ImageBaseName: ''
+  RenderImageBaseName: ''
+  ImageTag: ''
+
+jobs:
+- job: BuildNCSGrafanaImage
+  displayName: Build and publish NCS.Grafana.Image container
+  pool: 'NCS - Docker'
+  workspace:
+    clean: all
+  steps:
+  - checkout: self
+  - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-docker-publish-k8smanifest.yml@dfc-devops
+    parameters:
+      ContainerRegistryAdminUser: ${{ parameters.DevSitContainerRegistryAdminUser }}
+      ContainerRegistryPassword: ${{ parameters.DevSitContainerRegistryPassword }}
+      DockerfileContext: '${{ parameters.DockerfileContext }}'
+      DockerfileName: ${{ parameters.DockerfileName }}
+      ImageBaseName: ${{ parameters.ImageBaseName }}
+      ImageTag: ${{ parameters.ImageTag }}
+      ManifestFilePath: 'Resources/Dockerfiles/grafana.yaml'
+  - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-docker-publish-k8smanifest.yml@dfc-devops
+    parameters:
+      ContainerRegistryAdminUser: ${{ parameters.DevSitContainerRegistryAdminUser }}
+      ContainerRegistryPassword: ${{ parameters.DevSitContainerRegistryPassword }}
+      DockerfileContext: '${{ parameters.DockerfileContext }}'
+      DockerfileName: ${{ parameters.RenderDockerfileName }}
+      ImageBaseName: ${{ parameters.RenderImageBaseName }}
+      ImageTag: ${{ parameters.ImageTag }}
+      ManifestFilePath: 'Resources/Dockerfiles/grafana-renderer.yaml'

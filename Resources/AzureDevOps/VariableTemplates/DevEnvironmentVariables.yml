@@ -1,0 +1,11 @@
+variables:
+- name: DFCGrafanaImageTag
+  value: $(Build.BuildNumber)
+- name: ReleaseEnvironmentName
+  value: DEV
+- name: ResourceGroup
+  value: dfc-dev-stax-database-rg
+- name: grafana-namespace
+  value: grafana-dev
+- name: grafanarenderer-namespace
+  value: grafana-imagerenderer
