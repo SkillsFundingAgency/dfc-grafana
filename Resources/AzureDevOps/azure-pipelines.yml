@@ -4,14 +4,14 @@ parameters:
 - name: ReleaseToKured
   displayName: Release To kured
   type: string
-  default: 'NO'
+  default: 'YES'
   values:
   - 'NO'
   - 'YES'
 - name: ReleaseToGrafana
   displayName: Release To Grafana
   type: string
-  default: 'NO'
+  default: 'YES'
   values:
   - 'NO'
   - 'YES'
@@ -73,6 +73,8 @@ stages:
       SolutionBaseName: ${{ variables.SolutionBaseName }}
       DevSitContainerRegistryAdminUser: $(DevContainerRegistryAdminUser)
       DevSitContainerRegistryPassword: $(DevContainerRegistryPassword)
+      PrdContainerRegistryAdminUser: $(PrdContainerRegistryAdminUser)
+      PrdContainerRegistryPassword: $(PrdContainerRegistryPassword)
       DockerfileContext: 'Resources/Dockerfiles'
       DockerfileName: 'grafana.Dockerfile'
       RenderDockerfileName: 'grafana-renderer.Dockerfile'
