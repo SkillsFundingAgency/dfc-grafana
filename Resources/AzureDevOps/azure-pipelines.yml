@@ -19,9 +19,9 @@ parameters:
 
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'
-  ImageBaseName: NCS.Grafana.Image
-  RenderImageBaseName: NCS.Grafana.Renderer
-  SolutionBaseName: DFC.Grafana
+  ImageBaseName: ncs.grafana.image
+  RenderImageBaseName: ncs.grafana.renderer
+  SolutionBaseName: dfc.grafana
 
 resources:
   repositories:
