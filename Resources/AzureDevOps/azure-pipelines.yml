@@ -33,7 +33,7 @@ resources:
     endpoint: 'GitHub (ESFA)'
 
 pool:
-  name: NCS - CI and CD
+  name: NCS - Docker
   workspace:
     clean: all
   demands:
