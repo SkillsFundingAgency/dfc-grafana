@@ -13,7 +13,7 @@ parameters:
 jobs:
 - job: BuildNCSGrafanaImage
   displayName: Build and publish NCS.Grafana.Image container
-  pool: 'NCS - CI and CD'
+  pool: 'NCS - Docker'
   workspace:
     clean: all
   steps:
